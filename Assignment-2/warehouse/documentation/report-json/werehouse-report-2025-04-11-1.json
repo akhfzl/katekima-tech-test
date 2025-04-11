@@ -1,0 +1,90 @@
+{
+    "result": {
+        "item_code": "I-001",
+        "name": "History Book",
+        "unit": "Pcs",
+        "items": [
+            {
+                "date": "01-01-2025",
+                "description": "Buy history books",
+                "code": "P-011",
+                "in_qty": 10,
+                "in_price": 70000,
+                "in_total": 700000,
+                "out_qty": 0,
+                "out_price": 0,
+                "out_total": 0,
+                "type": "purchase",
+                "stock_qty": [
+                    10
+                ],
+                "stock_price": [
+                    70000
+                ],
+                "stock_total": [
+                    700000
+                ],
+                "balance_qty": 10,
+                "balance": 700000
+            },
+            {
+                "date": "01-01-2025",
+                "description": "Restock history books",
+                "code": "P-023",
+                "in_qty": 10,
+                "in_price": 50000,
+                "in_total": 500000,
+                "out_qty": 0,
+                "out_price": 0,
+                "out_total": 0,
+                "type": "purchase",
+                "stock_qty": [
+                    10,
+                    10
+                ],
+                "stock_price": [
+                    70000,
+                    50000
+                ],
+                "stock_total": [
+                    700000,
+                    500000
+                ],
+                "balance_qty": 20,
+                "balance": 1200000
+            },
+            {
+                "date": "01-01-2025",
+                "description": "Sell history to library",
+                "code": "S-004",
+                "in_qty": 0,
+                "in_price": 0,
+                "in_total": 0,
+                "out_qty": 6,
+                "out_price": 53789,
+                "out_total": 322734,
+                "type": "sell",
+                "stock_qty": [
+                    4,
+                    10
+                ],
+                "stock_price": [
+                    70000,
+                    50000
+                ],
+                "stock_total": [
+                    280000,
+                    500000
+                ],
+                "balance_qty": 14,
+                "balance": 780000
+            }
+        ],
+        "summary": {
+            "in_qty": 20,
+            "out_qty": 6,
+            "balance_qty": 14,
+            "balance": 780000
+        }
+    }
+}
