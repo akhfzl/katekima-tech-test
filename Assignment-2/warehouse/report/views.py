@@ -66,6 +66,35 @@ def generate_stock_report_pdf(data, output_path="report/report-pdf/stock_report_
 
     no = 1
     for idx, item in enumerate(result_data["items"]):
+        stock_qty_str = "\n".join([str(q) for q in item['stock_qty']])
+        stock_price_str = "\n".join([f"{p:,}" for p in item['stock_price']])
+        stock_total_str = "\n".join([f"{t:,}" for t in item['stock_total']])
+
+        row1 = [
+            str(no),
+            item["date"],
+            item["description"],
+            item["code"],
+            item["in_qty"],
+            f"{item['in_price']:,}" if item['in_price'] else 0,
+            f"{item['in_total']:,}" if item['in_total'] else 0,
+            item["out_qty"],
+            f"{item['out_price']:,}" if item['out_price'] else 0,
+            f"{item['out_total']:,}" if item['out_total'] else 0,
+            XPreformatted(stock_qty_str, styleN9),
+            XPreformatted(stock_price_str, styleN9),
+            XPreformatted(stock_total_str, styleN9)
+        ]
+
+        row2 = [
+            Paragraph("Balance", styleN9), "", "",
+            "", "", "", "",
+            "", "", "",
+            item["balance_qty"],
+            Paragraph(f"{item['balance']:,}", styleN9),
+            ""
+        ]
+
         row_index = 2 + idx * 2 + 1
         table_style.extend([
             ("SPAN", (0, row_index), (3, row_index)),
@@ -74,84 +103,14 @@ def generate_stock_report_pdf(data, output_path="report/report-pdf/stock_report_
             ("SPAN", (11, row_index), (12, row_index)),
         ])
 
-        if item['type'] == 'purchase':
-            stock_qty_str = "\n".join([str(q) for q in item['stock_qty']])
-            stock_price_str = "\n".join([f"{p:,}" for p in item['stock_price']])
-            stock_total_str = "\n".join([f"{t:,}" for t in item['stock_total']])
+        table_data.append(row1)
+        row_heights.append(25)
 
-            row1 = [
-                str(no),
-                item["date"],
-                item["description"],
-                item["code"],
-                item["in_qty"],
-                f"{item['in_price']:,}" if item['in_price'] else 0,
-                f"{item['in_total']:,}" if item['in_total'] else 0,
-                item["out_qty"],
-                f"{item['out_price']:,}" if item['out_price'] else 0,
-                f"{item['out_total']:,}" if item['out_total'] else 0,
-                XPreformatted(stock_qty_str, styleN9),
-                XPreformatted(stock_price_str, styleN9),
-                XPreformatted(stock_total_str, styleN9)
-            ]
+        table_data.append(row2)
+        row_heights.append(20)
 
-            row2 = [
-                Paragraph("Balance", styleN9), "", "",
-                "", "", "", "",
-                "", "", "",
-                item["balance_qty"],
-                Paragraph(f"{item['balance']:,}", styleN9),
-                ""
-            ]
+        no += 1
 
-            table_data.append(row1)
-            row_heights.append(25)
-
-            table_data.append(row2)
-            row_heights.append(20)
-            no += 1
-
-        else:
-            for j, stock in enumerate(item['stock_total']):
-                stock_total, stock_qty, stock_price = f"0\n{item['stock_total'][j]}", f"0\n{item['stock_qty'][j]}", f"0\n{item['stock_price'][j]}"
-
-                row1 = [
-                    str(no),
-                    item["date"],
-                    item["description"],
-                    item["code"],
-                    item["in_qty"],
-                    f"{item['in_price']:,}" if item['in_price'] else 0,
-                    f"{item['in_total']:,}" if item['in_total'] else 0,
-                    item["out_qty"],
-                    f"{item['out_price']:,}" if item['out_price'] else 0,
-                    f"{item['out_total']:,}" if item['out_total'] else 0,
-                    stock_qty,
-                    stock_price,
-                    stock_total
-                ]
-
-                row2 = [
-                    Paragraph("Balance", styleN9), "", "",
-                    "", "", "", "",
-                    "", "", "",
-                    item["balance_qty"],
-                    Paragraph(f"{item['stock_total'][j]:,}", styleN9),
-                    ""
-                ]
-
-                table_data.append(row1)
-                row_heights.append(25)
-
-                table_data.append(row2)
-                row_heights.append(20)
-                no += 1
-
-                row_index = 2 + idx * 2 + 3
-                table_style.extend([
-                    ("SPAN", (0, row_index), (3, row_index))
-                ])
-            
     summary = result_data["summary"]
     table_data.append([
         "Summary", "", "", "",
